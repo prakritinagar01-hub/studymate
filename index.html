@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StudyMate AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>StudyMate AI</h1>
+    <p>Your AI-powered study assistant</p>
+</header>
+
+
+<nav>
+    <button onclick="showSection('planner')">Study Planner</button>
+    <button onclick="showSection('quiz')">Quiz</button>
+    <button onclick="showSection('notes')">Summarizer</button>
+    <button onclick="showSection('progress')">Progress</button>
+    <button onclick="showSection('pomodoro')">Pomodoro</button>
+</nav>
+
+
+<main>
+
+    <!-- PLANNER -->
+
+    <section id="planner" class="section">
+
+        <h2>AI Study Planner</h2>
+
+        <textarea
+            id="subjects"
+            placeholder="Enter subjects e.g. DSA, Python, Mathematics">
+        </textarea>
+
+        <input
+            type="number"
+            id="hours"
+            placeholder="Study hours per day">
+
+        <input
+            type="date"
+            id="examDate">
+
+        <button onclick="generatePlan()">
+            Generate Study Plan
+        </button>
+
+        <div id="planResult" class="result"></div>
+
+    </section>
+
+
+    <!-- QUIZ -->
+
+    <section id="quiz" class="section hidden">
+
+        <h2>AI Quiz Generator</h2>
+
+        <input
+            id="quizTopic"
+            placeholder="Enter topic">
+
+        <select id="difficulty">
+
+            <option>Easy</option>
+            <option selected>Medium</option>
+            <option>Hard</option>
+
+        </select>
+
+        <button onclick="generateQuiz()">
+            Generate Quiz
+        </button>
+
+        <div id="quizResult" class="result"></div>
+
+    </section>
+
+
+    <!-- SUMMARIZER -->
+
+    <section id="notes" class="section hidden">
+
+        <h2>AI Notes Summarizer</h2>
+
+        <textarea
+            id="notesInput"
+            placeholder="Paste your notes here...">
+        </textarea>
+
+        <button onclick="summarizeNotes()">
+            Summarize Notes
+        </button>
+
+        <div id="summaryResult" class="result"></div>
+
+    </section>
+
+
+    <!-- PROGRESS -->
+
+    <section id="progress" class="section hidden">
+
+        <h2>Progress Tracker</h2>
+
+        <input
+            id="progressSubject"
+            placeholder="Subject">
+
+        <input
+            id="progressTopic"
+            placeholder="Topic">
+
+        <button onclick="saveProgress()">
+            Mark Completed
+        </button>
+
+        <div id="progressResult"></div>
+
+    </section>
+
+
+    <!-- POMODORO -->
+
+    <section id="pomodoro" class="section hidden">
+
+        <h2>Pomodoro Timer</h2>
+
+        <div id="timer">
+            25:00
+        </div>
+
+        <button onclick="startTimer()">
+            Start
+        </button>
+
+        <button onclick="resetTimer()">
+            Reset
+        </button>
+
+    </section>
+
+</main>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
