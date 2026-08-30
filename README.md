@@ -6,6 +6,9 @@ It helps students understand difficult topics, generate study material, practice
 
 ---
 
+##status
+-working on it...
+
 ## ✨ Features
 
 - 🤖 AI-powered study assistant
