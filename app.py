@@ -129,25 +129,65 @@ def progress():
     return jsonify([dict(row) for row in rows])
 
 
-@app.route("/api/progress", methods=["POST"])
-def add_progress():
-    data = request.json
+```python
+@app.route("/api/quiz", methods=["POST"])
+def quiz():
+    try:
+        data = request.get_json()
 
-    subject = data.get("subject")
-    topic = data.get("topic")
-    completed = data.get("completed", 0)
+        topic = data.get("topic", "").strip()
+        difficulty = data.get("difficulty", "Medium")
 
-    conn = get_db()
+        if not topic:
+            return jsonify({
+                "result": "Please enter a topic first."
+            }), 400
 
-    conn.execute("""
-        INSERT INTO progress(subject, topic, completed)
-        VALUES (?, ?, ?)
-    """, (subject, topic, completed))
+        prompt = f"""
+You are an expert educational quiz generator.
 
-    conn.commit()
-    conn.close()
+Generate exactly 5 multiple-choice questions.
 
-    return jsonify({"message": "Progress saved successfully"})
+Topic: {topic}
+Difficulty: {difficulty}
+
+For each question provide:
+
+Question 1:
+[question]
+
+A. [option]
+B. [option]
+C. [option]
+D. [option]
+
+Correct Answer: [A/B/C/D]
+
+Explanation: [short explanation]
+
+Repeat the same format for all 5 questions.
+
+Make sure:
+- There are exactly 5 questions.
+- Each question has exactly 4 options.
+- Only one option is correct.
+- The questions are relevant to the topic.
+- Difficulty should be {difficulty}.
+"""
+
+        result = generate_ai_response(prompt)
+
+        return jsonify({
+            "result": result
+        })
+
+    except Exception as e:
+        print("QUIZ ERROR:", str(e))
+
+        return jsonify({
+            "result": f"Quiz generation failed: {str(e)}"
+        }), 500
+
 
 
 if __name__ == "__main__":

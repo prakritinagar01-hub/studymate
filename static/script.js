@@ -47,39 +47,62 @@ async function generatePlan() {
 
 
 // QUIZ
-
+```javascript
 async function generateQuiz() {
 
-    const topic =
-        document.getElementById("quizTopic").value;
+    const topic = document
+        .getElementById("quizTopic")
+        .value
+        .trim();
 
-    const difficulty =
-        document.getElementById("difficulty").value;
+    const difficulty = document
+        .getElementById("difficulty")
+        .value;
 
-    const result =
-        document.getElementById("quizResult");
+    const result = document
+        .getElementById("quizResult");
+
+    if (!topic) {
+        result.innerHTML = "Please enter a topic first.";
+        return;
+    }
 
     result.innerHTML = "Generating quiz...";
 
-    const response = await fetch("/api/quiz", {
+    try {
 
-        method: "POST",
+        const response = await fetch("/api/quiz", {
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+            method: "POST",
 
-        body: JSON.stringify({
-            topic: topic,
-            difficulty: difficulty
-        })
-    });
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    const data = await response.json();
+            body: JSON.stringify({
+                topic: topic,
+                difficulty: difficulty
+            })
+        });
 
-    result.innerHTML =
-        `<pre>${data.result}</pre>`;
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.result || "Something went wrong");
+        }
+
+        result.innerHTML =
+            `<pre>${data.result}</pre>`;
+
+    } catch (error) {
+
+        console.error("Quiz Error:", error);
+
+        result.innerHTML =
+            <p>❌ ${error.message}</p>;
+    }
 }
+```
 
 
 // SUMMARIZER
