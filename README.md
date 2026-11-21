@@ -7,7 +7,7 @@ It helps students understand difficult topics, generate study material, practice
 ---
 
 ##status
--working on it...
+-working on it.....
 
 ## ✨ Features
 
